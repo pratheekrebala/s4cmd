@@ -268,11 +268,13 @@ class BotoClient(object):
   boto3 = __import__('boto3') # version >= 1.3.1
   botocore = __import__('botocore')
 
+
   # Exported exceptions.
   BotoError = boto3.exceptions.Boto3Error
   ClientError = botocore.exceptions.ClientError
   NoCredentialsError = botocore.exceptions.NoCredentialsError
-
+  BotoConfig = botocore.config.Config(signature_version=botocore.UNSIGNED)
+  
   # Exceptions that retries may work. May change in the future.
   S3RetryableErrors = (
     socket.timeout,
@@ -387,7 +389,7 @@ class BotoClient(object):
                                       aws_access_key_id=aws_access_key_id,
                                       aws_secret_access_key=aws_secret_access_key)
     else:
-      self.client = self.boto3.client('s3')
+      self.client = self.boto3.client('s3', config=self.BotoConfig)
 
     # Cache the result so we don't have to recalculate.
     self.legal_params = {}
