@@ -18,4 +18,4 @@
 #
 
 # Execute s4cmd as command line tool
-python -m s4cmd "$@"
+python3 -m s4cmd "$@"
